@@ -10,8 +10,7 @@ public class Ecosystem {
 
     private Creature[][] animalLand = new Creature[5][7];
     private int currentRound = 0;
-    public static Random random = new Random();
-    public static Scanner scanner = new Scanner(System.in);
+    private Random random = new Random();
 
     public static void main(String[] args) {
         Ecosystem ecosystem = new Ecosystem();
@@ -31,7 +30,7 @@ public class Ecosystem {
     }
 
     private void readLine() {
-        if (scanner.nextLine() != null) {
+        if (new Scanner(System.in).nextLine() != null) {
             printMap();
         }
     }
@@ -61,12 +60,12 @@ public class Ecosystem {
     private void updateMap() {
         for (int habitatRow = 0; habitatRow < animalLand.length; habitatRow++) {
             for (int habitatColumn = 0; habitatColumn < animalLand[habitatRow].length; habitatColumn++) {
-                develop(habitatRow, habitatColumn);
+                updateCreature(habitatRow, habitatColumn);
             }
         }
     }
 
-    private void develop(int habitatRow, int habitatColumn) {
+    private void updateCreature(int habitatRow, int habitatColumn) {
         Creature creature = animalLand[habitatRow][habitatColumn];
         if (creature.isDead()) {
             animalLand[habitatRow][habitatColumn] = new Creature(habitatRow, habitatColumn);
@@ -100,14 +99,13 @@ public class Ecosystem {
         int habitatColumn = originalCreature.getHabitatColumn();
         for (int validMoveRow = habitatRow - 1; validMoveRow <= (habitatRow + 1); validMoveRow++) {
             for (int validMoveColumn = habitatColumn - 1; validMoveColumn <= (habitatColumn + 1); validMoveColumn++) {
-                try {
+                if (validMoveRow >= 0 && validMoveRow < animalLand.length && validMoveColumn >= 0 && validMoveColumn < animalLand[0].length) {
                     Creature targetCreature = animalLand[validMoveRow][validMoveColumn];
                     if (originalCreature != targetCreature) {
                         if (originalCreature.getLevel() > targetCreature.getLevel()) {
                             validMoveRange.add(targetCreature);
                         }
                     }
-                } catch (IndexOutOfBoundsException e) {
                 }
             }
         }
@@ -123,8 +121,7 @@ public class Ecosystem {
         for (int habitatRow = 0; habitatRow < animalLand.length; habitatRow++) {
             System.out.print(habitatRow + 1 + " ");
             for (int habitatColumn = 0; habitatColumn < animalLand[habitatRow].length; habitatColumn++) {
-                Creature creature = animalLand[habitatRow][habitatColumn];
-                System.out.print(creature + " ");
+                System.out.print(animalLand[habitatRow][habitatColumn] + " ");
             }
             System.out.println();
         }

@@ -3,6 +3,7 @@ package Creature;
 import Ecosystem.Ecosystem;
 
 import java.util.ArrayList;
+import java.util.Random;
 
 public class Horse extends Creature {
 
@@ -21,10 +22,11 @@ public class Horse extends Creature {
         life--;
         name = "H";
         while (!validMoveRangeOptions.isEmpty()) {
-            int option = Ecosystem.random.nextInt(validMoveRangeOptions.size());
+            Random random = new Random();
+            int option = random.nextInt(validMoveRangeOptions.size());
             Creature creature = validMoveRangeOptions.get(option);
             validMoveRangeOptions.remove(option);
-            if (Ecosystem.random.nextBoolean()) {
+            if (random.nextBoolean()) {
                 habitatRow = creature.habitatRow;
                 habitatColumn = creature.habitatColumn;
                 return true;
@@ -34,7 +36,7 @@ public class Horse extends Creature {
     }
 
     public boolean eat(Creature creature) {
-        if ((creature.toString()).equals("g")) {
+        if (creature instanceof Grass) {
             life++;
             return true;
         }
